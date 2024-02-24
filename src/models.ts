@@ -1,5 +1,8 @@
 export interface PomodoroTimerProps {
-  defaultPomodoroTime: number;
+  pomodoroTime: number;
+  shortRestTime: number;
+  longRestTime: number;
+  cycles: number;
 }
 
 export interface ButtonProps {

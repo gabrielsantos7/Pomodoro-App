@@ -1,23 +1,79 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PomodoroTimerProps } from '../models';
 import { useInterval } from '../hooks/useInterval';
 import { Button } from './button';
 import { Timer } from './timer';
 
 export function PomodoroTimer(props: PomodoroTimerProps) {
-  const [mainTime, setMainTime] = useState(props.defaultPomodoroTime);
+  const [mainTime, setMainTime] = useState(props.pomodoroTime);
+  const [timeCounting, setTimeCounting] = useState(false);
+  const [working, setWorking] = useState(false);
+  const [resting, setResting] = useState(false);
 
-  useInterval(() => {
-    setMainTime(mainTime - 1);
-  }, 1000);
+  const configureWorking = () => {
+    setTimeCounting(true);
+    setWorking(true);
+    setResting(false);
+    setMainTime(props.pomodoroTime);
+  };
+
+  const configureResting = (longPause: boolean) => {
+    setTimeCounting(true);
+    setWorking(false);
+    setResting(true);
+
+    setMainTime(longPause ? props.longRestTime : props.shortRestTime);
+  };
+
+  useInterval(
+    () => {
+      setMainTime(mainTime - 1);
+    },
+    timeCounting ? 1000 : null
+  );
+
+  useEffect(() => {
+    const bodyClassList = document.body.classList;
+    if (working) {
+      bodyClassList.remove('bg-teal-400');
+      bodyClassList.add('bg-orange-400');
+    }
+    if (resting) {
+      bodyClassList.remove('bg-orange-400');
+      bodyClassList.add('bg-teal-400');
+    }
+  }, [working, resting]);
+
   return (
-    <div className="container bg-slate-800 mx-auto my-2 py-2 text-center">
+    <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-12 p-5 text-center max-w-150 rounded-md  shadow-container">
+      <h3 className="text-2xl">
+        Você está {working ? 'trabalhando' : 'descansando'}
+      </h3>
       <Timer mainTime={mainTime} />
-      <Button
-        text="teste"
-        className="px-4 py-2 bg-lime-500"
-        onClick={() => alert('Oi')}
-      />
+      <div className="flex items-center justify-evenly py-4">
+        <Button
+          text="Trabalhar"
+          className={working ? 'bg-orange-400' : 'bg-teal-400'}
+          onClick={configureWorking}
+        />
+        <Button
+          text="Descansar"
+          className={working ? 'bg-orange-400' : 'bg-teal-400'}
+          onClick={() => configureResting(false)}
+        />
+        {(working || resting) && (
+          <Button
+            text={timeCounting ? 'Pausar' : 'Retomar'}
+            className={working ? 'bg-orange-400' : 'bg-teal-400'}
+            onClick={() => setTimeCounting((prev) => !prev)}
+          />
+        )}
+      </div>
+
+      <p className="text-left">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quasi
+        error quisquam laboriosam rerum
+      </p>
     </div>
   );
 }
