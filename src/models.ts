@@ -7,3 +7,7 @@ export interface ButtonProps {
   className?: string;
   onClick?: () => void;
 }
+
+export interface TimerProps {
+  mainTime: number;
+}
