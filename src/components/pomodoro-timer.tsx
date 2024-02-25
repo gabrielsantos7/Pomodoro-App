@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 
-import { EmptyOrDoubleZero, PomodoroTimerProps } from '../models';
+import { PomodoroTimerProps } from '../models';
+import { EmptyOrDoubleZero } from '../types';
 import { useInterval } from '../hooks/useInterval';
 
 import bellStart from '../sounds/bell-start.mp3';
@@ -10,6 +11,7 @@ import { TimerCard } from './timer';
 
 import { secondsToTime } from '../utils/seconds-to-time';
 import { Pause, Play, TimerOff, Timer, History } from 'lucide-react';
+import { ThemeToggler } from './theme-toggler';
 
 const bodyClassList = document.body.classList;
 
@@ -65,6 +67,7 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
     timeCounting ? 1000 : null
   );
 
+  // TODO: Change to a gradient
   useEffect(() => {
     if (working) {
       bodyClassList.remove('bg-teal-400');
@@ -99,7 +102,8 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
   ]);
 
   return (
-    <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-8 p-5 text-center max-w-150 rounded-md  shadow-container">
+    <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-6 p-5 text-center max-w-150 rounded-md  shadow-container">
+      <ThemeToggler />
       <h3 className="text-2xl">
         {!working && !resting
           ? 'Pomodoro não iniciado'
@@ -141,7 +145,6 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
           Pausado
         </span>
       )}
-      <p>{percentage}</p>
 
       <div className="text-left">
         <p className="">
@@ -150,7 +153,7 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
         <p className="">
           Horas trabalhadas:{' '}
           <span className="font-bold">
-            {secondsToTime(fullWorkingTime, EmptyOrDoubleZero.DoubleZero)}
+            {secondsToTime(fullWorkingTime, '00:')}
           </span>
         </p>
         <p className="">

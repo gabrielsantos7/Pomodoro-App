@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface PomodoroTimerProps {
   pomodoroTime: number;
   shortRestTime: number;
@@ -14,9 +16,4 @@ export interface ButtonProps {
 export interface TimerProps {
   mainTime: number;
   percentage: number;
-}
-
-export enum EmptyOrDoubleZero {
-  Empty = '',
-  DoubleZero = '00:',
 }

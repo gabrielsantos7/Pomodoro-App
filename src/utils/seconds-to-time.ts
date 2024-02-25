@@ -1,8 +1,8 @@
-import { EmptyOrDoubleZero } from '../models';
+import { EmptyOrDoubleZero } from '../types';
 
 export function secondsToTime(
   seconds: number,
-  startsWith: EmptyOrDoubleZero = EmptyOrDoubleZero.Empty
+  startsWith: EmptyOrDoubleZero = ''
 ): string {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
