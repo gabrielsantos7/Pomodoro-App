@@ -14,3 +14,8 @@ export interface ButtonProps {
 export interface TimerProps {
   mainTime: number;
 }
+
+export enum EmptyOrDoubleZero {
+  Empty = '',
+  DoubleZero = '00:',
+}

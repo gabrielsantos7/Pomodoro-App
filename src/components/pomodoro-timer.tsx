@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-import useSound from 'use-sound';
+import { useEffect, useState, useCallback } from 'react';
 
-import { PomodoroTimerProps } from '../models';
+import { EmptyOrDoubleZero, PomodoroTimerProps } from '../models';
 import { useInterval } from '../hooks/useInterval';
 
 import bellStart from '../sounds/bell-start.mp3';
@@ -9,40 +8,53 @@ import bellFinish from '../sounds/bell-finish.mp3';
 import { Button } from './button';
 import { Timer } from './timer';
 
+import { secondsToTime } from '../utils/seconds-to-time';
+
+const bodyClassList = document.body.classList;
+
 export function PomodoroTimer(props: PomodoroTimerProps) {
   const [mainTime, setMainTime] = useState(props.pomodoroTime);
+  const [cycles, setCycles] = useState(props.cycles - 1);
+
   const [timeCounting, setTimeCounting] = useState(false);
+  const [completedCycles, setCompletedCycles] = useState(0);
+  const [completedPomodoros, setCompletedPomodoros] = useState(0);
+  const [fullWorkingTime, setFullWorkingTime] = useState(0);
   const [working, setWorking] = useState(false);
   const [resting, setResting] = useState(false);
-  const [playBellStart] = useSound(bellStart);
-  const [playBellFinish] = useSound(bellFinish);
 
-  const configureWorking = () => {
+  const configureWorking = useCallback(() => {
+
+  const bellStartAudio = new Audio(bellStart);
     setTimeCounting(true);
     setWorking(true);
     setResting(false);
     setMainTime(props.pomodoroTime);
-    playBellStart();
-  };
+    bellStartAudio.play()
+  }, [props.pomodoroTime]);
 
-  const configureResting = (longPause: boolean) => {
-    setTimeCounting(true);
-    setWorking(false);
-    setResting(true);
+  const configureResting = useCallback(
+    (longPause: boolean) => {
+      const bellFinishAudio = new Audio(bellFinish);
+      setTimeCounting(true);
+      setWorking(false);
+      setResting(true);
 
-    setMainTime(longPause ? props.longRestTime : props.shortRestTime);
-    playBellFinish();
-  };
+      setMainTime(longPause ? props.longRestTime : props.shortRestTime);
+      bellFinishAudio.play();
+    },
+    [props.longRestTime, props.shortRestTime]
+  );
 
   useInterval(
     () => {
       setMainTime(mainTime - 1);
+      if (working) setFullWorkingTime((prev) => prev + 1);
     },
     timeCounting ? 1000 : null
   );
 
   useEffect(() => {
-    const bodyClassList = document.body.classList;
     if (working) {
       bodyClassList.remove('bg-teal-400');
       bodyClassList.add('bg-orange-400');
@@ -51,7 +63,29 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
       bodyClassList.remove('bg-orange-400');
       bodyClassList.add('bg-teal-400');
     }
-  }, [working, resting]);
+
+    if (mainTime > 0) return;
+
+    if (working && cycles > 0) {
+      configureResting(false);
+      setCycles((prev) => prev - 1);
+    } else if (working && cycles <= 0) {
+      configureResting(true);
+      setCompletedCycles((prev) => prev + 1);
+      setCycles(props.cycles - 1);
+    }
+
+    if (working) setCompletedPomodoros((prev) => prev + 1);
+    if (resting) configureWorking();
+  }, [
+    working,
+    resting,
+    mainTime,
+    cycles,
+    configureWorking,
+    configureResting,
+    props.cycles
+  ]);
 
   return (
     <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-12 p-5 text-center max-w-150 rounded-md  shadow-container">
@@ -79,10 +113,19 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
         )}
       </div>
 
-      <p className="text-left">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quasi
-        error quisquam laboriosam rerum
-      </p>
+      <div className="text-left">
+        <p className="">
+          Ciclos completos: <span className="font-bold">{completedCycles}</span>
+        </p>
+        <p className="">
+          Horas trabalhadas:{' '}
+          <span className="font-bold">{secondsToTime(fullWorkingTime, EmptyOrDoubleZero.DoubleZero)}</span>
+        </p>
+        <p className="">
+          Pomodoros completos:{' '}
+          <span className="font-bold">{completedPomodoros}</span>
+        </p>
+      </div>
     </div>
   );
 }

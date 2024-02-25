@@ -1,5 +1,5 @@
 import { TimerProps } from "../models";
-import { secondsToTime } from "../utils/seconds-to-time";
+import { secondsToTime } from '../utils/seconds-to-time';
 
 export function Timer(props: TimerProps) {
   return(
