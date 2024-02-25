@@ -6,13 +6,14 @@ export interface PomodoroTimerProps {
 }
 
 export interface ButtonProps {
-  text: string;
+  icon: JSX.Element;
   className?: string;
   onClick?: () => void;
 }
 
 export interface TimerProps {
   mainTime: number;
+  percentage: number;
 }
 
 export enum EmptyOrDoubleZero {

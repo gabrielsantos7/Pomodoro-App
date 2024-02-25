@@ -1,10 +1,21 @@
-import { TimerProps } from "../models";
+import { CircularProgressbar, buildStyles  } from 'react-circular-progressbar';
+
+import { TimerProps } from '../models';
 import { secondsToTime } from '../utils/seconds-to-time';
 
-export function Timer(props: TimerProps) {
-  return(
-    <div>
-      <h1 className="text-5xl text-lime-500 pb-2">{secondsToTime(props.mainTime)}</h1>
+export function TimerCard(props: TimerProps) {
+  return (
+    <div className="max-w-64 mx-auto my-4">
+      <CircularProgressbar value={props.percentage} text={secondsToTime(props.mainTime)} styles={buildStyles({
+
+    // Text size
+    textSize: '20px',
+
+    // Colors
+    pathColor: '#3e98c7',
+    textColor: '#3e98c7',
+    trailColor: '#d6d6d6',
+  })} />
     </div>
   );
 }

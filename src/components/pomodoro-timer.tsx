@@ -6,9 +6,10 @@ import { useInterval } from '../hooks/useInterval';
 import bellStart from '../sounds/bell-start.mp3';
 import bellFinish from '../sounds/bell-finish.mp3';
 import { Button } from './button';
-import { Timer } from './timer';
+import { TimerCard } from './timer';
 
 import { secondsToTime } from '../utils/seconds-to-time';
+import { Pause, Play, TimerOff, Timer, History } from 'lucide-react';
 
 const bodyClassList = document.body.classList;
 
@@ -23,14 +24,24 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
   const [working, setWorking] = useState(false);
   const [resting, setResting] = useState(false);
 
-  const configureWorking = useCallback(() => {
+  let totalSeconds: number;
+  if (cycles <= 0) {
+    totalSeconds = props.longRestTime;
+  } else if (resting) {
+    totalSeconds = props.shortRestTime;
+  } else {
+    totalSeconds = props.pomodoroTime;
+  }
+  const runningTime = totalSeconds - mainTime;
+  const percentage = Math.floor((runningTime / totalSeconds) * 100);
 
-  const bellStartAudio = new Audio(bellStart);
+  const configureWorking = useCallback(() => {
+    const bellStartAudio = new Audio(bellStart);
     setTimeCounting(true);
     setWorking(true);
     setResting(false);
     setMainTime(props.pomodoroTime);
-    bellStartAudio.play()
+    bellStartAudio.play();
   }, [props.pomodoroTime]);
 
   const configureResting = useCallback(
@@ -88,30 +99,49 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
   ]);
 
   return (
-    <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-12 p-5 text-center max-w-150 rounded-md  shadow-container">
+    <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-8 p-5 text-center max-w-150 rounded-md  shadow-container">
       <h3 className="text-2xl">
-        Você está {working ? 'trabalhando' : 'descansando'}
+        {!working && !resting
+          ? 'Pomodoro não iniciado'
+          : working
+            ? 'Você está trabalhando'
+            : 'Você está descansando'}
       </h3>
-      <Timer mainTime={mainTime} />
+      <TimerCard mainTime={mainTime} percentage={percentage} />
       <div className="flex items-center justify-evenly py-4">
         <Button
-          text="Trabalhar"
+          icon={
+            working ? <History strokeWidth={2.5} /> : <Play strokeWidth={2.5} />
+          }
           className={working ? 'bg-orange-400' : 'bg-teal-400'}
           onClick={configureWorking}
         />
         <Button
-          text="Descansar"
+          icon={<Pause strokeWidth={2.5} />}
           className={working ? 'bg-orange-400' : 'bg-teal-400'}
           onClick={() => configureResting(false)}
         />
         {(working || resting) && (
           <Button
-            text={timeCounting ? 'Pausar' : 'Retomar'}
+            icon={
+              timeCounting ? (
+                <TimerOff strokeWidth={2.5} />
+              ) : (
+                <Timer strokeWidth={2.5} />
+              )
+            }
             className={working ? 'bg-orange-400' : 'bg-teal-400'}
             onClick={() => setTimeCounting((prev) => !prev)}
           />
         )}
       </div>
+
+      {!timeCounting && (resting || working) && (
+        <span className="text-center font-bold uppercase bg-red-700 text-white px-1 rounded-md">
+          Pausado
+        </span>
+      )}
+      <p>{percentage}</p>
 
       <div className="text-left">
         <p className="">
@@ -119,7 +149,9 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
         </p>
         <p className="">
           Horas trabalhadas:{' '}
-          <span className="font-bold">{secondsToTime(fullWorkingTime, EmptyOrDoubleZero.DoubleZero)}</span>
+          <span className="font-bold">
+            {secondsToTime(fullWorkingTime, EmptyOrDoubleZero.DoubleZero)}
+          </span>
         </p>
         <p className="">
           Pomodoros completos:{' '}

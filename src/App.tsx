@@ -4,7 +4,7 @@ export default function App() {
   return (
     <div>
       <PomodoroTimer
-        pomodoroTime={5}
+        pomodoroTime={50}
         shortRestTime={2}
         longRestTime={20}
         cycles={4}
