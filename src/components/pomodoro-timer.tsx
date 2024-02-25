@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
+import useSound from 'use-sound';
+
 import { PomodoroTimerProps } from '../models';
 import { useInterval } from '../hooks/useInterval';
+
+import bellStart from '../sounds/bell-start.mp3';
+import bellFinish from '../sounds/bell-finish.mp3';
 import { Button } from './button';
 import { Timer } from './timer';
 
@@ -9,12 +14,15 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
   const [timeCounting, setTimeCounting] = useState(false);
   const [working, setWorking] = useState(false);
   const [resting, setResting] = useState(false);
+  const [playBellStart] = useSound(bellStart);
+  const [playBellFinish] = useSound(bellFinish);
 
   const configureWorking = () => {
     setTimeCounting(true);
     setWorking(true);
     setResting(false);
     setMainTime(props.pomodoroTime);
+    playBellStart();
   };
 
   const configureResting = (longPause: boolean) => {
@@ -23,6 +31,7 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
     setResting(true);
 
     setMainTime(longPause ? props.longRestTime : props.shortRestTime);
+    playBellFinish();
   };
 
   useInterval(

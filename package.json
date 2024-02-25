@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.10",
