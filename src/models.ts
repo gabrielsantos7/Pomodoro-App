@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { Dispatch, SetStateAction } from 'react';
+import { ActiveTheme } from './types';
 
 export interface PomodoroTimerProps {
   pomodoroTime: number;
@@ -16,4 +17,9 @@ export interface ButtonProps {
 export interface TimerProps {
   mainTime: number;
   percentage: number;
+  activeTheme: ActiveTheme;
+}
+
+export interface ThemeTogglerProps {
+  setActiveTheme: Dispatch<SetStateAction<ActiveTheme>>;
 }

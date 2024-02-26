@@ -1,24 +1,34 @@
 import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { ThemeTogglerProps } from '../models';
+import { ActiveTheme, themeColors } from '../types';
 
 const element = document.documentElement;
 
-export function ThemeToggler() {
+export function ThemeToggler(props: ThemeTogglerProps) {
   const [checked, setChecked] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [theme, setTheme] = useState<ActiveTheme>(() => {
+    const savedTheme = localStorage.getItem('theme') as ActiveTheme;
+    return savedTheme in themeColors ? savedTheme : 'light';
+  });
 
   const handleClick = () => {
     setChecked((prev) => !prev);
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
+
+  useEffect(() => {
+    props.setActiveTheme(theme);
+  }, [theme, props]);
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
     element.classList.remove(theme === 'light' ? 'dark' : 'light');
     element.classList.add(theme);
 
-    setChecked(theme === 'dark')
+    setChecked(theme === 'dark');
   }, [setChecked, theme]);
+
   return (
     <div className="flex justify-center items-center gap-2 pb-2">
       <Sun />

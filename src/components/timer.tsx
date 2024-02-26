@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
+import { themeColors } from '../types';
 import { TimerProps } from '../models';
 import { secondsToTime } from '../utils/seconds-to-time';
 
 // TODO: Correct colors on theme change
 export function TimerCard(props: TimerProps) {
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   return (
     <div className="max-w-64 mx-auto my-4">
@@ -18,9 +17,9 @@ export function TimerCard(props: TimerProps) {
           textSize: '20px',
 
           // Colors
-          pathColor: theme === 'light' ? '#0284c7' : '#f43f5e',
-          textColor: theme === 'light' ? '#0284c7' : '#f43f5e',
-          trailColor: theme === 'light' ? '#d6d6d6' : '#334155'
+          pathColor: themeColors[props.activeTheme].primary,
+          textColor: themeColors[props.activeTheme].primary,
+          trailColor: themeColors[props.activeTheme].background
         })}
       />
     </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 
 import { PomodoroTimerProps } from '../models';
-import { EmptyOrDoubleZero } from '../types';
+import { ActiveTheme, themeColors } from '../types';
 import { useInterval } from '../hooks/useInterval';
 
 import bellStart from '../sounds/bell-start.mp3';
@@ -25,6 +25,10 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
   const [fullWorkingTime, setFullWorkingTime] = useState(0);
   const [working, setWorking] = useState(false);
   const [resting, setResting] = useState(false);
+  const [activeTheme, setActiveTheme] = useState<ActiveTheme>(() => {
+    const savedTheme = localStorage.getItem('theme') as ActiveTheme;
+    return savedTheme in themeColors ? savedTheme : 'light';
+  });
 
   let totalSeconds: number;
   if (cycles <= 0) {
@@ -103,7 +107,7 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
 
   return (
     <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-6 p-5 text-center max-w-150 rounded-md  shadow-container">
-      <ThemeToggler />
+      <ThemeToggler setActiveTheme={setActiveTheme} />
       <h3 className="text-2xl">
         {!working && !resting
           ? 'Pomodoro não iniciado'
@@ -111,7 +115,11 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
             ? 'Você está trabalhando'
             : 'Você está descansando'}
       </h3>
-      <TimerCard mainTime={mainTime} percentage={percentage} />
+      <TimerCard
+        mainTime={mainTime}
+        percentage={percentage}
+        activeTheme={activeTheme}
+      />
       <div className="flex items-center justify-evenly py-4">
         <Button
           icon={
