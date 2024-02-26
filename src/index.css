@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .bg-resting {
+    @apply bg-gradient-to-r from-teal-400 to-emerald-300;
+  }
+
+  .bg-working {
+    @apply bg-gradient-to-r from-orange-300 to-red-400;
+  }
+}

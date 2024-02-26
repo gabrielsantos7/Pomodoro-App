@@ -71,15 +71,14 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
     timeCounting ? 1000 : null
   );
 
-  // TODO: Change to a gradient
   useEffect(() => {
     if (working) {
-      bodyClassList.remove('bg-teal-400');
-      bodyClassList.add('bg-orange-400');
+      bodyClassList.remove('bg-resting');
+      bodyClassList.add('bg-working');
     }
     if (resting) {
-      bodyClassList.remove('bg-orange-400');
-      bodyClassList.add('bg-teal-400');
+      bodyClassList.remove('bg-working');
+      bodyClassList.add('bg-resting');
     }
 
     if (mainTime > 0) return;
