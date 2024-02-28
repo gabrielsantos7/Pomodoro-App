@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from './components/modal';
 import { PomodoroTimer } from './components/pomodoro-timer';
 import { OnSubmitProps } from './models';
@@ -15,9 +15,9 @@ export default function App() {
     setShortRestTime(onSubmitProps.shortRestTime);
     setLongRestTime(onSubmitProps.longRestTime);
     setCycles(onSubmitProps.cycles);
-    console.log(onSubmitProps);
     setShowModal(false);
   };
+  
   return (
     <>
       <PomodoroTimer

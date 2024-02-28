@@ -1,13 +1,19 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ActiveTheme } from './types';
 
-export interface PomodoroTimerProps {
+export interface AppComponentsProps {
   pomodoroTime: number;
   shortRestTime: number;
   longRestTime: number;
   cycles: number;
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface PomodoroModalProps extends AppComponentsProps {
+  onSubmit: (onSubmitProps: OnSubmitProps) => void;
+}
+
+export interface PomodoroTimerProps extends AppComponentsProps {}
 
 export interface ButtonProps {
   icon: JSX.Element;
@@ -30,10 +36,6 @@ export interface OnSubmitProps {
   shortRestTime: number,
   longRestTime: number,
   cycles: number
-}
-
-export interface PomodoroModalProps extends PomodoroTimerProps {
-  onSubmit: (onSubmitProps: OnSubmitProps) => void;
 }
 
 export interface ModalInputProps {

@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react';
 import { secondsToTime } from '../utils/seconds-to-time';
 import { TimeInput } from './time-input';
 import { CyclesInput } from './cycles-input';
+import { timeToSeconds } from '../utils/time-to-seconds';
 
 export function Modal(props: PomodoroModalProps) {
   const [pomodoroTime, setPomodoroTime] = useState(
@@ -36,10 +37,10 @@ export function Modal(props: PomodoroModalProps) {
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
     props.onSubmit({
-      pomodoroTime: Number(pomodoroTime),
-      shortRestTime: Number(shortRestTime),
-      longRestTime: Number(longRestTime),
-      cycles: Number(cycles),
+      pomodoroTime: timeToSeconds(pomodoroTime),
+      shortRestTime: timeToSeconds(shortRestTime),
+      longRestTime: timeToSeconds(longRestTime),
+      cycles: cycles,
     });
   };
 

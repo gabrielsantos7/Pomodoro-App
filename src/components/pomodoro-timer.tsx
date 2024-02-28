@@ -12,7 +12,6 @@ import { TimerCard } from './timer';
 import { secondsToTime } from '../utils/seconds-to-time';
 import { Pause, Play, TimerOff, Timer, History, Settings } from 'lucide-react';
 import { ThemeToggler } from './theme-toggler';
-import { Modal } from './modal';
 
 const bodyClassList = document.body.classList;
 
@@ -41,6 +40,13 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
   }
   const runningTime = totalSeconds - mainTime;
   const percentage = Math.floor((runningTime / totalSeconds) * 100);
+
+  const resetTimer = useCallback(() => {
+    setTimeCounting(false);
+    setWorking(false);
+    setResting(false);
+    setMainTime(props.pomodoroTime);
+  }, [props.pomodoroTime]);
 
   const configureWorking = useCallback(() => {
     const bellStartAudio = new Audio(bellStart);
@@ -105,11 +111,18 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
     props.cycles
   ]);
 
+  useEffect(() => {
+    resetTimer();
+  }, [resetTimer]);
+
   return (
     <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-6 p-5 text-center max-w-150 rounded-md  shadow-container">
       <div className="flex justify-between items-center">
         <ThemeToggler setActiveTheme={setActiveTheme} />
-        <button type="button" onClick={() => props.setShowModal((prev) => !prev)}>
+        <button
+          type="button"
+          onClick={() => props.setShowModal((prev) => !prev)}
+        >
           <Settings />
         </button>
       </div>
