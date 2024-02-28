@@ -40,21 +40,21 @@ export function Modal(props: PomodoroModalProps) {
       pomodoroTime: timeToSeconds(pomodoroTime),
       shortRestTime: timeToSeconds(shortRestTime),
       longRestTime: timeToSeconds(longRestTime),
-      cycles: cycles,
+      cycles: cycles
     });
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50">
-      <div className="bg-white rounded-lg p-3 w-96 max-w-full shadow-lg transform transition-all duration-300">
+    <div className="fixed inset-0 flex items-center justify-center z-40 bg-black/50">
+      <div className="bg-white dark:bg-slate-800 rounded-lg p-3 w-96 max-w-full shadow-lg transform transition-all duration-700 z-50">
         {/* Modal Header */}
         <div className="flex justify-between items-center border-b-2 border-gray-200 pb-4">
-          <h2 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
+          <h2 className="text-2xl dark:text-slate-50 font-semibold text-gray-900 flex items-center gap-2">
             Editar intervalos <Pencil size={20} />
           </h2>
           <button
             onClick={() => props.setShowModal(false)}
-            className="text-gray-500 hover:text-gray-700 focus:outline-none"
+            className="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-slate-50 focus:outline-none"
           >
             <X />
           </button>
@@ -86,7 +86,7 @@ export function Modal(props: PomodoroModalProps) {
               type="submit"
               className="mt-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-400 rounded-md font-bold text-xl text-white w-full"
             >
-              Enviar
+              Salvar
             </button>
           </form>
         </div>
