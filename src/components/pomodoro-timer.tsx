@@ -10,8 +10,9 @@ import { Button } from './button';
 import { TimerCard } from './timer';
 
 import { secondsToTime } from '../utils/seconds-to-time';
-import { Pause, Play, TimerOff, Timer, History } from 'lucide-react';
+import { Pause, Play, TimerOff, Timer, History, Settings } from 'lucide-react';
 import { ThemeToggler } from './theme-toggler';
+import { Modal } from './modal';
 
 const bodyClassList = document.body.classList;
 
@@ -106,7 +107,12 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
 
   return (
     <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-6 p-5 text-center max-w-150 rounded-md  shadow-container">
-      <ThemeToggler setActiveTheme={setActiveTheme} />
+      <div className="flex justify-between items-center">
+        <ThemeToggler setActiveTheme={setActiveTheme} />
+        <button type="button" onClick={() => props.setShowModal((prev) => !prev)}>
+          <Settings />
+        </button>
+      </div>
       <h3 className="text-2xl">
         {!working && !resting
           ? 'Pomodoro não iniciado'

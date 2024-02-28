@@ -30,7 +30,7 @@ export function ThemeToggler(props: ThemeTogglerProps) {
   }, [setChecked, theme]);
 
   return (
-    <div className="flex justify-center items-center gap-2 pb-2">
+    <div className="flex justify-center items-center gap-2">
       <Sun />
       <button
         className="w-12 h-6 rounded-full p-1 bg-gray-300 dark:bg-slate-700 relative

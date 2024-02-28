@@ -6,6 +6,7 @@ export interface PomodoroTimerProps {
   shortRestTime: number;
   longRestTime: number;
   cycles: number;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface ButtonProps {
@@ -22,4 +23,21 @@ export interface TimerProps {
 
 export interface ThemeTogglerProps {
   setActiveTheme: Dispatch<SetStateAction<ActiveTheme>>;
+}
+
+export interface OnSubmitProps {
+  pomodoroTime: number,
+  shortRestTime: number,
+  longRestTime: number,
+  cycles: number
+}
+
+export interface PomodoroModalProps extends PomodoroTimerProps {
+  onSubmit: (onSubmitProps: OnSubmitProps) => void;
+}
+
+export interface ModalInputProps {
+  title: string;
+  value: string;
+  onChange: (newValue: string) => void;
 }
