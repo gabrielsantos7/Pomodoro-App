@@ -20,7 +20,7 @@ export function timeIsValid(time: string): ValidationResult {
   const secondsValue = Number(seconds);
 
   if (minutesValue === MIN_TIME && secondsValue === MIN_TIME) {
-    return { isValid: false, errorMessage: "Minutos e segundos não podem ser ambos 00." };
+    return { isValid: false, errorMessage: "Minutos e segundos não podem estar zerados" };
   }
 
   if (minutesValue > MAX_TIME || minutesValue < MIN_TIME) {
@@ -31,5 +31,5 @@ export function timeIsValid(time: string): ValidationResult {
     return { isValid: false, errorMessage: "Segundos devem estar entre 0 e 59." };
   }
 
-  return { isValid: true };
+  return { isValid: true, errorMessage: null };
 }

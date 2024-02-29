@@ -6,6 +6,7 @@ import { TimeInput } from './time-input';
 import { CyclesInput } from './cycles-input';
 import { timeToSeconds } from '../utils/time-to-seconds';
 import { timeIsValid } from '../utils/time-is-valid';
+import { ValidationErrorMessage } from '../types';
 
 export function Modal(props: PomodoroModalProps) {
   const [pomodoroTime, setPomodoroTime] = useState(
@@ -18,6 +19,15 @@ export function Modal(props: PomodoroModalProps) {
     secondsToTime(props.longRestTime)
   );
   const [cycles, setCycles] = useState(props.cycles);
+
+  const [pomodoroErrorMessage, setPomodoroErrorMessage] =
+    useState<ValidationErrorMessage>(null);
+  const [shortRestErrorMessage, setShortRestErrorMessage] =
+    useState<ValidationErrorMessage>(null);
+  const [longRestErrorMessage, setLongRestErrorMessage] =
+    useState<ValidationErrorMessage>(null);
+  const [cyclesErrorMessage, setCyclesErrorMessage] =
+    useState<ValidationErrorMessage>(null);
 
   const handlePomodoroTimeChange = (newValue: string) => {
     setPomodoroTime(newValue);
@@ -37,18 +47,49 @@ export function Modal(props: PomodoroModalProps) {
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (!timeIsValid(pomodoroTime)) return;
-    if (!timeIsValid(shortRestTime)) return;
-    if (!timeIsValid(longRestTime)) return;
-    if(cycles > 99 || cycles <= 0) return;
-    // TODO: Add fields validation
-    // TODO: Save on localStorage
+
+    const pomodoroValidationResult = timeIsValid(pomodoroTime);
+    if (!pomodoroValidationResult.isValid) {
+      setPomodoroErrorMessage(pomodoroValidationResult.errorMessage);
+      return;
+    } else {
+      setPomodoroErrorMessage(null);
+    }
+
+    const shortRestValidationResult = timeIsValid(shortRestTime);
+    if (!shortRestValidationResult.isValid) {
+      setShortRestErrorMessage(shortRestValidationResult.errorMessage);
+      return;
+    } else {
+      setShortRestErrorMessage(null);
+    }
+
+    const longRestValidationResult = timeIsValid(longRestTime);
+    if (!longRestValidationResult.isValid) {
+      setLongRestErrorMessage(longRestValidationResult.errorMessage);
+      return;
+    } else {
+      setLongRestErrorMessage(null);
+    }
+
+    if (cycles > 99 || cycles <= 0) {
+      setCyclesErrorMessage(
+        'Erro nos ciclos: o valor deve estar entre 1 e 99.'
+      );
+      return;
+    } else {
+      setCyclesErrorMessage(null);
+    }
+
     props.onSubmit({
       pomodoroTime: timeToSeconds(pomodoroTime),
       shortRestTime: timeToSeconds(shortRestTime),
       longRestTime: timeToSeconds(longRestTime),
       cycles: cycles
     });
+
+    // Salvar os dados no localStorage, se necessário
+    // TODO: Adicionar lógica para salvar no localStorage
   };
 
   return (
@@ -70,28 +111,32 @@ export function Modal(props: PomodoroModalProps) {
         <div className="mt-6 space-y-4">
           <form className="py-2 px-3" onSubmit={handleFormSubmit}>
             <TimeInput
+              errorMessage={pomodoroErrorMessage}
               title="Trabalhando"
               value={pomodoroTime}
               onChange={handlePomodoroTimeChange}
             />
             <TimeInput
+              errorMessage={shortRestErrorMessage}
               title="Descanso curto"
               value={shortRestTime}
               onChange={handleShortTimeChange}
             />
             <TimeInput
+              errorMessage={longRestErrorMessage}
               title="Descanso longo"
               value={longRestTime}
               onChange={handleLongTimeChange}
             />
             <CyclesInput
+              errorMessage={cyclesErrorMessage}
               title="Ciclos"
               value={String(cycles)}
               onChange={handleCyclesChange}
             />
             <button
               type="submit"
-              className="mt-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-400 rounded-md font-bold text-xl text-white w-full"
+              className="mt-4 py-2  rounded-md font-bold text-xl bg-neutral w-full"
             >
               Salvar
             </button>

@@ -12,3 +12,4 @@ export const themeColors = {
 };
 
 export type ActiveTheme = keyof typeof themeColors;
+export type ValidationErrorMessage = string | null

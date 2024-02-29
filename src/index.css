@@ -10,15 +10,19 @@
   .bg-working {
     @apply bg-gradient-to-r from-orange-300 to-red-400;
   }
+
+  .bg-neutral {
+    @apply bg-gradient-to-r from-blue-500 to-indigo-400 text-white;
+  }
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance:textfield;
-    text-align: center;
+input[type='number'] {
+  -moz-appearance: textfield;
+  text-align: center;
 }

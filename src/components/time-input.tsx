@@ -18,11 +18,12 @@ export function TimeInput(props: ModalInputProps) {
   };
 
   return (
+    <>
     <div className="grid grid-cols-2 place-items-center gap-8 py-1 px-3">
       <p className="text-sm font-medium text-gray-700 dark:text-slate-50 text-center">
         {props.title}
       </p>
-      <div className="w-36 flex items-center justify-center border-t border-b border-gray-300 mx-auto">
+      <div className={`mx-auto w-36 flex items-center justify-center border-t border-b ${props.errorMessage ? 'border-red-400' : 'border-gray-300'}`}>
         <input
           value={minutes}
           type="number"
@@ -44,5 +45,9 @@ export function TimeInput(props: ModalInputProps) {
         />
       </div>
     </div>
+    {props.errorMessage && (
+      <p className='text-red-400 text-center text-sm pb-2'>{props.errorMessage}</p>
+    )}
+    </>
   );
 }

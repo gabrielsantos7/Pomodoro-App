@@ -167,7 +167,7 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
       </div>
 
       {!timeCounting && (resting || working) && (
-        <span className="text-center font-bold uppercase bg-red-700 text-white px-1 rounded-md">
+        <span className="text-center font-bold uppercase tracking-widest bg-neutral px-1 rounded-md">
           Pausado
         </span>
       )}
