@@ -10,7 +10,7 @@ import { Button } from './button';
 import { TimerCard } from './timer';
 
 import { secondsToTime } from '../utils/seconds-to-time';
-import { Pause, Play, TimerOff, Timer, History, Settings } from 'lucide-react';
+import { Pause, Play, History, Settings, Coffee } from 'lucide-react';
 import { ThemeToggler } from './theme-toggler';
 
 const bodyClassList = document.body.classList;
@@ -147,7 +147,7 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
           onClick={configureWorking}
         />
         <Button
-          icon={<Pause strokeWidth={2.5} />}
+          icon={<Coffee strokeWidth={2.5} />}
           className={working ? 'bg-orange-400' : 'bg-teal-400'}
           onClick={() => configureResting(false)}
         />
@@ -155,9 +155,9 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
           <Button
             icon={
               timeCounting ? (
-                <TimerOff strokeWidth={2.5} />
+                <Pause strokeWidth={2.5} />
               ) : (
-                <Timer strokeWidth={2.5} />
+                <Play strokeWidth={2.5} />
               )
             }
             className={working ? 'bg-orange-400' : 'bg-teal-400'}
