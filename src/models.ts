@@ -43,3 +43,8 @@ export interface ModalInputProps {
   value: string;
   onChange: (newValue: string) => void;
 }
+
+export interface ValidationResult {
+  isValid: boolean;
+  errorMessage?: string;
+}

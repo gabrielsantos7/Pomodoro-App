@@ -19,7 +19,7 @@ export function CyclesInput(props: ModalInputProps) {
         <input
           value={cycles}
           type="number"
-          min="0"
+          min="1"
           max="59"
           onChange={handleCyclesChange}
           className="w-16 px-3 py-2 border-none placeholder-gray-400 focus:outline-none sm:text-sm bg-transparent dark:text-slate-50"

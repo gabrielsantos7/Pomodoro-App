@@ -5,6 +5,7 @@ import { secondsToTime } from '../utils/seconds-to-time';
 import { TimeInput } from './time-input';
 import { CyclesInput } from './cycles-input';
 import { timeToSeconds } from '../utils/time-to-seconds';
+import { timeIsValid } from '../utils/time-is-valid';
 
 export function Modal(props: PomodoroModalProps) {
   const [pomodoroTime, setPomodoroTime] = useState(
@@ -36,6 +37,12 @@ export function Modal(props: PomodoroModalProps) {
 
   const handleFormSubmit = (event: FormEvent) => {
     event.preventDefault();
+    if (!timeIsValid(pomodoroTime)) return;
+    if (!timeIsValid(shortRestTime)) return;
+    if (!timeIsValid(longRestTime)) return;
+    if(cycles > 99 || cycles <= 0) return;
+    // TODO: Add fields validation
+    // TODO: Save on localStorage
     props.onSubmit({
       pomodoroTime: timeToSeconds(pomodoroTime),
       shortRestTime: timeToSeconds(shortRestTime),
