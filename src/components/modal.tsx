@@ -29,6 +29,8 @@ export function Modal(props: PomodoroModalProps) {
   const [cyclesErrorMessage, setCyclesErrorMessage] =
     useState<ValidationErrorMessage>(null);
 
+  const [pulse, setPulse] = useState(false);
+
   const handlePomodoroTimeChange = (newValue: string) => {
     setPomodoroTime(newValue);
   };
@@ -92,9 +94,26 @@ export function Modal(props: PomodoroModalProps) {
     // TODO: Adicionar lógica para salvar no localStorage
   };
 
+  const handlePulse = () => {
+    setPulse(true);
+
+    setTimeout(() => {
+      setPulse(false);
+    }, 1500);
+  };
+
+  const handleModalClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+  };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-40 bg-black/50">
-      <div className="bg-white dark:bg-slate-800 rounded-lg p-3 w-96 max-w-full shadow-lg transform transition-all duration-700 z-50">
+    <div
+      onClick={handlePulse}
+      className="fixed inset-0 flex items-center justify-center z-40 bg-black/50"
+    >
+      <div onClick={handleModalClick}
+        className={`bg-white dark:bg-slate-800 rounded-lg p-3 w-96 max-w-full shadow-lg transform transition-all duration-700 z-50 ${pulse && 'animate-bounce'}`}
+      >
         {/* Modal Header */}
         <div className="flex justify-between items-center border-b-2 border-gray-200 pb-4">
           <h2 className="text-2xl dark:text-slate-50 font-semibold text-gray-900 flex items-center gap-2">
