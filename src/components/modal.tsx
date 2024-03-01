@@ -112,7 +112,7 @@ export function Modal(props: PomodoroModalProps) {
       className="fixed inset-0 flex items-center justify-center z-40 bg-black/50"
     >
       <div onClick={handleModalClick}
-        className={`bg-white dark:bg-slate-800 rounded-lg p-3 w-96 max-w-full shadow-lg transform transition-all duration-700 z-50 ${pulse && 'animate-bounce'}`}
+        className={`bg-white dark:bg-slate-800 rounded-lg p-3 w-96 max-w-[95%] shadow-lg transform transition-all duration-700 z-50 ${pulse && 'animate-bounce'}`}
       >
         {/* Modal Header */}
         <div className="flex justify-between items-center border-b-2 border-gray-200 pb-4">

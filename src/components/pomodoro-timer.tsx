@@ -116,7 +116,7 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
   }, [resetTimer]);
 
   return (
-    <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-6 p-5 text-center max-w-150 rounded-md  shadow-container">
+    <div className="container bg-slate-50 dark:bg-slate-800 text-slate-950 dark:text-slate-50 mx-auto my-6 p-5 text-center w-150 max-w-full md:rounded-md  shadow-container">
       <div className="flex justify-between items-center">
         <ThemeToggler setActiveTheme={setActiveTheme} />
         <button
