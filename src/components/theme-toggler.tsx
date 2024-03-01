@@ -31,7 +31,8 @@ export function ThemeToggler(props: ThemeTogglerProps) {
 
   return (
     <div className="flex justify-center items-center gap-2">
-      <Sun />
+      <Sun color={theme === 'light' ? '#0284c7' : '#fff'} />
+
       <button
         className="w-12 h-6 rounded-full p-1 bg-gray-300 dark:bg-slate-700 relative
         transition-colors
@@ -47,7 +48,7 @@ export function ThemeToggler(props: ThemeTogglerProps) {
         ease-out`}
         />
       </button>
-      <Moon />
+      <Moon color={theme === 'dark' ? '#f43f5e' : '#020617'} />
     </div>
   );
 }

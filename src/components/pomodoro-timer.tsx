@@ -10,7 +10,7 @@ import { Button } from './button';
 import { TimerCard } from './timer';
 
 import { secondsToTime } from '../utils/seconds-to-time';
-import { Pause, Play, History, Settings, Coffee } from 'lucide-react';
+import { Pause, Play, History, Settings, Coffee, Zap } from 'lucide-react';
 import { ThemeToggler } from './theme-toggler';
 
 const bodyClassList = document.body.classList;
@@ -141,13 +141,19 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
       <div className="flex items-center justify-evenly py-4">
         <Button
           icon={
-            working ? <History strokeWidth={2.5} /> : <Play strokeWidth={2.5} />
+            working ? <History strokeWidth={2.5} /> : <Zap strokeWidth={2} />
           }
           className={working ? 'bg-orange-400' : 'bg-teal-400'}
           onClick={configureWorking}
         />
         <Button
-          icon={<Coffee strokeWidth={2.5} />}
+          icon={
+            resting ? (
+              <History strokeWidth={2.5} />
+            ) : (
+              <Coffee strokeWidth={2.5} />
+            )
+          }
           className={working ? 'bg-orange-400' : 'bg-teal-400'}
           onClick={() => configureResting(false)}
         />
@@ -171,22 +177,24 @@ export function PomodoroTimer(props: PomodoroTimerProps) {
           Pausado
         </span>
       )}
-
-      <div className="text-left">
-        <p className="">
-          Ciclos completos: <span className="font-bold">{completedCycles}</span>
-        </p>
-        <p className="">
-          Horas trabalhadas:{' '}
-          <span className="font-bold">
-            {secondsToTime(fullWorkingTime, '00:')}
-          </span>
-        </p>
-        <p className="">
-          Pomodoros completos:{' '}
-          <span className="font-bold">{completedPomodoros}</span>
-        </p>
-      </div>
+      <table className="border-collapse mx-auto">
+        <tbody>
+          <tr className="hover:bg-slate-200 dark:hover:bg-slate-600">
+            <td className="px-4 py-2 text-left">Ciclos completos:</td>
+            <td className="px-4 py-2 font-bold">{completedCycles}</td>
+          </tr>
+          <tr className="hover:bg-slate-200 dark:hover:bg-slate-600">
+            <td className="px-4 py-2 text-left">Horas trabalhadas:</td>
+            <td className="px-4 py-2 font-bold">
+              {secondsToTime(fullWorkingTime, '00:')}
+            </td>
+          </tr>
+          <tr className="hover:bg-slate-200 dark:hover:bg-slate-600">
+            <td className="px-4 py-2 text-left">Pomodoros completos:</td>
+            <td className="px-4 py-2 font-bold">{completedPomodoros}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
