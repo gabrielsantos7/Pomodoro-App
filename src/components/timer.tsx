@@ -8,7 +8,7 @@ import { secondsToTime } from '../utils/seconds-to-time';
 export function TimerCard(props: TimerProps) {
 
   return (
-    <div className="max-w-64 mx-auto my-4">
+    <div className="max-w-64 mx-auto my-4 font-sans">
       <CircularProgressbar
         value={props.percentage}
         text={secondsToTime(props.mainTime)}
